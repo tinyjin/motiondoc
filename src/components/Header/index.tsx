@@ -57,14 +57,14 @@ const Header = () => {
                 } `}
               >
                 <Image
-                  src="/images/motiondocs_logo.png"
+                  src="/images/brands/lottiefiles_black.svg"
                   alt="logo"
                   width={140}
                   height={30}
                   className="w-full dark:hidden"
                 />
                 <Image
-                  src="/images/motiondocs_logo.png"
+                  src="/images/brands/lottiefiles_white.png"
                   alt="logo"
                   width={140}
                   height={30}

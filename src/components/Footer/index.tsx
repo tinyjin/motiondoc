@@ -12,14 +12,14 @@ const Footer = () => {
               <div className="mb-12 max-w-[360px] lg:mb-16">
                 <Link href="/" className="mb-8 inline-block">
                   <Image
-                    src="/images/motiondocs_logo.png"
+                    src="/images/brands/lottiefiles_black.svg"
                     alt="logo"
                     className="w-full dark:hidden"
                     width={130}
                     height={30}
                   />
                   <Image
-                    src="/images/motiondocs_logo.png"
+                    src="/images/brands/lottiefiles_white.png"
                     alt="logo"
                     className="hidden w-full dark:block"
                     width={130}
@@ -27,7 +27,9 @@ const Footer = () => {
                   />
                 </Link>
                 <p className="mb-9 text-base leading-relaxed text-body-color dark:text-body-color-dark">
-                  Thor Vector Graphics is an open-source graphics library designed for creating vector-based scenes and animations.
+                LottieFiles is by Design Barn Inc.
+                <br />
+                Copyright © 2024 Design Barn Inc. All rights reserved.
                 </p>
                 <div className="flex items-center">
                   {/* <a
@@ -211,7 +213,7 @@ const Footer = () => {
             </div>
           </div>
 
-          <div className="h-px w-full bg-gradient-to-r from-transparent via-[#D2D8E183] to-transparent dark:via-[#959CB183]"></div>
+          {/* <div className="h-px w-full bg-gradient-to-r from-transparent via-[#D2D8E183] to-transparent dark:via-[#959CB183]"></div>
           <div className="py-8">
             <p className="text-center text-base text-body-color dark:text-white">
             Copyright © 2020 - 2024 by the{" "}
@@ -224,7 +226,7 @@ const Footer = () => {
                 ThorVG Project
               </a>
             </p>
-          </div>
+          </div> */}
         </div>
         <div className="absolute right-0 top-14 z-[-1]">
           <svg
