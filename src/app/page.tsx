@@ -13,7 +13,7 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "MotionDoc - The Future of Interactive Documents",
-  description: "MotionDoc is a revolutionary documentation file format that brings interactivity to documents",
+  description: "MDF is a revolutionary documentation file format that brings interactivity to documents",
   // other metadata
 };
 
