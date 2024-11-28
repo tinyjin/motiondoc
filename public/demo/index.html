@@ -195,7 +195,7 @@
               </svg>
             </button>
 
-            <button onclick="showMoreMenu()" title="Menus">
+            <button class="more-menu-button" onclick="showMoreMenu()" title="Menus">
               <svg xmlns="http://www.w3.org/2000/svg" height="32" viewBox="0 0 24 24" width="32" fill="white">
                 <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
               </svg>
@@ -245,39 +245,84 @@
             function showMoreMenu() {
               // Implement more menu logic
               console.log('Show more menu');
+              // Create menu element
+              const menu = document.createElement('div');
+              menu.style.position = 'absolute';
+              menu.style.right = '0';
+              menu.style.top = '100%';
+              menu.style.backgroundColor = '#323639';
+              menu.style.padding = '8px';
+              menu.style.borderRadius = '4px';
+              menu.style.boxShadow = '0 2px 10px rgba(0,0,0,0.3)';
+              menu.style.zIndex = '1000';
+
+              // Add WebGPU menu item
+              const webgpuButton = document.createElement('button');
+              webgpuButton.textContent = 'WebGPU';
+              webgpuButton.style.display = 'block';
+              webgpuButton.style.width = '100%';
+              webgpuButton.style.textAlign = 'left';
+              webgpuButton.style.padding = '8px 16px';
+              webgpuButton.style.backgroundColor = 'transparent';
+              webgpuButton.style.border = 'none';
+              webgpuButton.style.color = '#fff';
+              webgpuButton.style.cursor = 'pointer';
+              webgpuButton.addEventListener('mouseover', () => {
+                webgpuButton.style.backgroundColor = 'rgba(232, 234, 237, 0.08)';
+              });
+              // SWRenderer menu item
+              const swRendererButton = document.createElement('button');
+              swRendererButton.textContent = 'Software';
+              swRendererButton.style.display = 'block';
+              swRendererButton.style.width = '100%';
+              swRendererButton.style.textAlign = 'left';  
+
+              swRendererButton.addEventListener('mouseover', () => {
+                swRendererButton.style.backgroundColor = 'rgba(232, 234, 237, 0.08)';
+              });
+              swRendererButton.addEventListener('mouseout', () => {
+                swRendererButton.style.backgroundColor = 'transparent';
+              });
+
+              swRendererButton.onclick = () => {
+                console.log('SW clicked');
+                menu.remove();
+                
+                const urlParams = new URLSearchParams(window.location.search);
+                const renderer = urlParams.get('renderer');
+                const path = urlParams.get('path');
+
+                window.location.href = '?renderer=sw&path=' + path;
+              };
+
+              webgpuButton.onclick = () => {
+                console.log('WebGPU clicked');
+                menu.remove();
+                
+                const urlParams = new URLSearchParams(window.location.search);
+                const renderer = urlParams.get('renderer');
+                const path = urlParams.get('path');
+
+                window.location.href = '?renderer=wg&path=' + path;
+              };
+
+              menu.appendChild(swRendererButton);
+              menu.appendChild(webgpuButton);
+
+              document.querySelector('.more-menu-button').appendChild(menu);
+
+              // Close menu when clicking outside
+              const closeMenu = (e) => {
+                if (!menu.contains(e.target) && e.target.closest('button') !== document.querySelector('button[title="Menus"]')) {
+                  menu.remove();
+                  document.removeEventListener('click', closeMenu);
+                }
+              };
+              document.addEventListener('click', closeMenu);
             }
           </script>
         </div>
       </div>
-      <!-- <div>
-        <button onclick="playAnimation()">Play</button>
-        <button onclick="pauseAnimation()">Pause</button>
-        <button onclick="stopAnimation()">Stop</button>
-        <button onclick="createAnimation()">Create</button>
-        <button onclick="destroyAnimation()">Destroy</button>
-        <button onclick="save('gif')">save2gif</button>
-        <button onclick="save('tvg')">save2tvg</button>
-        <button onclick="save('png')">save2png</button>
-        <div>
-          <label for="reverseCheckbox">Reverse</label>
-          <input type="checkbox" id="reverseCheckbox" onchange="toggleReverse(event)">
-        </div>
-          
-        <div>
-          <label for="loopCheckbox">Loop</label>
-          <input type="checkbox" id="loopCheckbox" onchange="toggleLoop(event)" checked>
-        </div>
-        
-        <div>
-          <label for="speedRange">Speed</label>
-          <input type="range" id="speedRange" min="0.1" max="2" step="0.1" value="1" onchange="changeSpeed(this.value)">
-        </div>
-        
-        <div>
-          <label for="frameRange">Frame</label>
-          <input type="range" id="frameRange" min="1" max="100" step="1" value="1" onchange="seekFrame(this.value)">
-        </div>
-      </div> -->
 
       <div class="lottie"></div>
     </div>
@@ -310,6 +355,8 @@
         animation.style.border = "2px solid grey";
         animation.style.background = "#000";
         animation.style.margin = "0 auto";
+        const renderer = new URLSearchParams(window.location.search).get('renderer');
+        animation.renderConfig = { renderer: renderer || 'sw' };
         // animation.style.backgroundColor = "red";
 
         const filename = new URLSearchParams(window.location.search).get('path');
