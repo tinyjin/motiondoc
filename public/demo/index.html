@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>ThorVG Lottie Player</title>
+    <meta name="description" content="A web lottie player using ThorVG as a renderer" />
+    <script src="../dist/lottie-player.js"></script>
+  </head>
+  <style>
+    body {
+      padding: 0;
+      margin: 0;
+      background-color: #202124;
+    }
+
+    .lottie {
+      padding-top: 90px;
+    }
+
+    .controls {
+      display: flex;
+      flex-direction: row;
+      height: 64px;
+      width: 100vw;
+      padding: 16px 32px;
+      justify-content: space-between;
+      align-items: center;
+      background: #323639;
+      position: fixed;
+      z-index: 100;
+    }
+
+    .controls span {
+      color: #fff;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .zoom-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .zoom-controls > button {
+      background-color: #f1f3f4;
+      color: #202124;
+      cursor: pointer;
+      font-family: inherit;
+      font-weight: 500;
+      line-height: 1;
+      padding: 0;
+      transition: background-color 0.2s;
+      background-color: transparent;
+      color: #fff;
+      width: 50px;
+      height: 50px;
+      font-size: 28px;
+      line-height: 50px;
+    }
+
+    .zoom-controls > button:hover {
+      background-color: #e8eaed;
+      color: #202124;
+    }
+
+    .zoom-controls >button:active {
+      background-color: #dadce0;
+      color: #202124;
+    }
+
+    #zoomInput {
+      background-color: #f1f3f4;
+      border: 0.5px solid grey;
+      border-radius: 4px;
+      height: 50px;
+      color: white;
+      font-family: inherit;
+      font-size: 24px;
+      padding: 0 8px;
+      box-sizing: border-box;
+      background-color: transparent;
+      display: flex;
+    }
+
+    #zoomInput:focus {
+      outline: none;
+      border-color: #1a73e8;
+    }
+
+    .right-menu {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .right-menu button {
+      background-color: transparent;
+      border: none;
+      color: #fff;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 16px;
+      padding: 8px 16px;
+      transition: background-color 0.2s;
+      border-radius: 4px;
+    }
+
+    .right-menu button:hover {
+      background-color: rgba(232, 234, 237, 0.08);
+    }
+
+    .right-menu button:active {
+      background-color: rgba(218, 220, 224, 0.1);
+    }
+
+    .right-menu button[title] {
+      position: relative;
+    }
+
+    .right-menu button[title]:hover::after {
+      content: attr(title);
+      position: absolute;
+      bottom: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+  </style>
+  <body>
+    <div>
+      <div class="controls">
+        <span>MotionDoc_Example.tvg</span>
+
+        <div class="zoom-controls" style="display: flex; align-items: center; gap: 8px;">
+          <button 
+            onclick="updateZoom('decrease')"
+          >-</button>
+          <div style="position: relative; width: 120px;">
+            <input
+              type="text"
+              id="zoomInput"
+              value="100%"
+              style="width: 100%; text-align: center;"
+              onchange="updateZoomFromInput(this.value)"
+              onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+            >
+          </div>
+          <button
+            onclick="updateZoom('increase')"
+          >+</button>
+        </div>
+        <script>
+          function updateZoom(action) {
+            const input = document.getElementById('zoomInput');
+            let currentZoom = parseInt(input.value) || 100;
+            
+            if (action === 'increase') {
+              currentZoom = Math.min(300, currentZoom + 10);
+            } else {
+              currentZoom = Math.max(10, currentZoom - 10);
+            }
+            
+            input.value = currentZoom + '%';
+            animation.style.transform = `scale(${currentZoom/100})`;
+          }
+
+          function updateZoomFromInput(value) {
+            let zoom = parseInt(value) || 100;
+            zoom = Math.max(10, Math.min(300, zoom));
+            document.getElementById('zoomInput').value = zoom + '%';
+            animation.style.transform = `scale(${zoom/100})`;
+          }
+        </script>
+
+        <div class="right-menu" style="margin-right: 64px;">
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <button onclick="downloadMDF()" title="Download">
+              <svg xmlns="http://www.w3.org/2000/svg" height="32" viewBox="0 0 24 24" width="32" fill="white">
+                <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+              </svg>
+            </button>
+            
+            <button onclick="printMDF()" title="Print">
+              <svg xmlns="http://www.w3.org/2000/svg" height="32" viewBox="0 0 24 24" width="32" fill="white">
+                <path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/>
+              </svg>
+            </button>
+
+            <button onclick="showMoreMenu()" title="Menus">
+              <svg xmlns="http://www.w3.org/2000/svg" height="32" viewBox="0 0 24 24" width="32" fill="white">
+                <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+              </svg>
+            </button>
+          </div>
+
+          <script>
+            function downloadMDF() {
+              // Implement PDF download logic
+              console.log('Download PDF');
+            }
+
+            function printMDF() {
+              // Toggle .lottie padding and controls visibility for printing
+              const lottieElement = document.querySelector('.lottie');
+              const controlsElement = document.querySelector('.controls');
+              
+              lottieElement.style.paddingTop = '0';
+              controlsElement.style.display = 'none';
+              
+              window.print();
+              
+              lottieElement.style.paddingTop = '90px';
+              controlsElement.style.display = 'flex';
+            }
+
+            function showMoreMenu() {
+              // Implement more menu logic
+              console.log('Show more menu');
+            }
+          </script>
+        </div>
+      </div>
+      <!-- <div>
+        <button onclick="playAnimation()">Play</button>
+        <button onclick="pauseAnimation()">Pause</button>
+        <button onclick="stopAnimation()">Stop</button>
+        <button onclick="createAnimation()">Create</button>
+        <button onclick="destroyAnimation()">Destroy</button>
+        <button onclick="save('gif')">save2gif</button>
+        <button onclick="save('tvg')">save2tvg</button>
+        <button onclick="save('png')">save2png</button>
+        <div>
+          <label for="reverseCheckbox">Reverse</label>
+          <input type="checkbox" id="reverseCheckbox" onchange="toggleReverse(event)">
+        </div>
+          
+        <div>
+          <label for="loopCheckbox">Loop</label>
+          <input type="checkbox" id="loopCheckbox" onchange="toggleLoop(event)" checked>
+        </div>
+        
+        <div>
+          <label for="speedRange">Speed</label>
+          <input type="range" id="speedRange" min="0.1" max="2" step="0.1" value="1" onchange="changeSpeed(this.value)">
+        </div>
+        
+        <div>
+          <label for="frameRange">Frame</label>
+          <input type="range" id="frameRange" min="1" max="100" step="1" value="1" onchange="seekFrame(this.value)">
+        </div>
+      </div> -->
+
+      <div class="lottie"></div>
+    </div>
+    <script>
+      let animation;
+      window.onload = function() {
+        createAnimation();
+      }
+
+      function createAnimation() {
+        if (animation) {
+          alert('Animation already exists');
+          return;
+        }
+
+        const lottie = document.querySelector('.lottie');
+        animation = document.createElement('lottie-player');
+
+        animation.autoPlay = true;
+        animation.loop = true;
+        // animation.src = "http://127.0.0.1:5500/dist/ex.svg";
+        // animation.mimeType = 'svg';
+        animation.mimeType = 'tvg';
+        animation.src = new URLSearchParams(window.location.search).get('path');
+        // animation.src = "http://127.0.0.1:5500/dist/poc.tvg";
+        // animation.src = "http://127.0.0.1:5500/dist/ttt.tvg";
+        animation.style.width = "1400px";
+        animation.style.height = "100vh";
+        animation.style.border = "2px solid grey";
+        animation.style.background = "#525659";
+        animation.style.margin = "0 auto";
+        // animation.style.backgroundColor = "red";
+
+        lottie.appendChild(animation);
+
+        animation = document.querySelector('lottie-player');
+        const frameRange = document.querySelector('#frameRange');
+
+        animation.addEventListener('frame', function(e) {
+          frameRange.value = e.detail.frame / animation.totalFrame * 100;
+        });
+
+        animation.addEventListener('error', function(e) {
+          console.log(e);
+        });
+      }
+
+      function pauseAnimation() {
+        if (!animation) {
+          alert('Animation is not created yet');
+          return;
+        }
+
+        animation.pause();
+      }
+
+      function stopAnimation() {
+        if (!animation) {
+          alert('Animation is not created yet');
+          return;
+        }
+
+        animation.stop();
+      }
+
+      function seekFrame(framePercentage) {
+        if (!animation) {
+          alert('Animation is not created yet');
+          return;
+        }
+
+        animation.seek(animation.totalFrames * framePercentage / 100);
+      }
+
+      function destroyAnimation() {
+        if (!animation) {
+          alert('No animation to destroy');
+          return;
+        }
+
+        animation.destroy();
+        animation = undefined;
+      }
+
+      function playAnimation() {
+        if (!animation) {
+          alert('Animation is not created yet');
+          return;
+        }
+
+        animation.play();
+      }
+
+      function toggleLoop(e) {
+        if (!animation) {
+          alert('Animation is not created yet');
+          return;
+        }
+
+        animation.setLooping(e.target.checked);
+        if (animation.currentState !== 'playing') {
+          animation.play();
+        }
+      }
+
+      function changeSpeed(speed) {
+        if (!animation) {
+          alert('Animation is not created yet');
+          return;
+        }
+
+        animation.setSpeed(speed);
+        if (animation.currentState !== 'playing') {
+          animation.play();
+        }
+      }
+
+      function toggleReverse(e) {
+        if (!animation) {
+          alert('Animation is not created yet');
+          return;
+        }
+
+        animation.setDirection(e.target.checked ? -1 : 1);
+        if (animation.currentState !== 'playing') {
+          animation.play();
+        }
+      }
+
+      function save(ext) {
+        if (!animation) {
+          alert('Animation is not created yet');
+          return;
+        }
+
+        animation.save(ext);
+      }
+  </script>
+  </body>
+</html>

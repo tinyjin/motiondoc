@@ -1,3 +1,5 @@
+'use client';
+
 import Link from "next/link";
 
 const Hero = () => {
@@ -12,26 +14,117 @@ const Hero = () => {
             <div className="w-full px-4">
               <div className="mx-auto max-w-[800px] text-center">
                 <h1 className="mb-5 text-3xl font-bold leading-tight text-black dark:text-white sm:text-4xl sm:leading-tight md:text-5xl md:leading-tight">
-                  Free and Open-Source Next.js Template for Startup & SaaS
+                  MotionDocs - The Future of Interactive Documents
                 </h1>
                 <p className="mb-12 text-base !leading-relaxed text-body-color dark:text-body-color-dark sm:text-lg md:text-xl">
-                  Startup is free Next.js template for startups and SaaS
-                  business websites comes with all the essential pages,
-                  components, and sections you need to launch a complete
-                  business website, built-with Next 13.x and Tailwind CSS.
+                  MotionDocs is a revolutionary documentation platform that brings
+                  your technical content to life with interactive examples,
+                  animated code snippets, and real-time collaboration. Create
+                  engaging documentation that helps developers learn faster and
+                  implement solutions more effectively.
                 </p>
+
+                <div className="mb-12 w-full max-w-[800px] mx-auto">
+                  <div 
+                    className="relative rounded-lg border-2 border-dashed border-gray-300 dark:border-gray-600 p-12 text-center hover:border-primary dark:hover:border-primary transition-colors duration-300 cursor-pointer"
+                    onDragOver={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                    }}
+                    onDrop={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      const files: File[] = Array.from(e.dataTransfer.files);
+                      // Handle files here
+                      console.log('Dropped files:', files);
+                      const fileUrls = files.map(file => URL.createObjectURL(file));
+                      const fileUrl = fileUrls[0];
+                      console.log(fileUrl);
+                      console.log(`/demo/index.html?path=${fileUrl}`);
+
+                      setTimeout(() => {
+                        window.open(`/demo/index.html?path=${fileUrl}`, '_blank');
+                      }, 500);
+                    }}
+                    onClick={() => {
+                      const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
+                      fileInput?.click();
+                    }}
+                  >
+                    <div className="space-y-4">
+                      <div className="flex justify-center">
+                        <svg 
+                          className="w-16 h-16 text-gray-400 dark:text-gray-500"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path 
+                            strokeLinecap="round" 
+                            strokeLinejoin="round" 
+                            strokeWidth="2" 
+                            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                          />
+                        </svg>
+                      </div>
+                      <div className="text-lg font-medium text-gray-900 dark:text-white">
+                        Drop your documentation files here
+                      </div>
+                      <div className="text-sm text-gray-500 dark:text-gray-400">
+                        or click to select files
+                      </div>
+                      <div className="text-xs text-gray-400 dark:text-gray-500">
+                        Supports TVG, MDF, and documentation bundles
+                      </div>
+                      <input
+                        type="file"
+                        className="hidden"
+                        onChange={(e) => {
+                          const files = Array.from(e.target.files || []);
+                          // Handle files here
+                          console.log('Selected files:', files);
+                          const fileUrls = files.map(file => URL.createObjectURL(file));
+                          const fileUrl = fileUrls[0];
+                          console.log(fileUrl);
+                          console.log(`/demo/index.html?path=${fileUrl}`);
+
+                          // http://localhost:3000/demo/index.html?path=http://127.0.0.1:5500/dist/poc.tvg
+                          setTimeout(() => {
+                            window.open(`/demo/index.html?path=${fileUrl}`, '_blank');
+                          }, 500);
+                        }}
+                        multiple
+                        accept=".md,.mdx,.zip,.rar,.tvg"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="text-center">
+                  <span className="text-gray-500 dark:text-gray-400">or</span>
+                  <button 
+                    className="ml-2 text-primary hover:underline"
+                    onClick={() => {
+                      // Handle example document exploration
+                      console.log('Explore example document clicked');
+                    }}
+                  >
+                    explore example document from ThorVG team
+                  </button>
+                </div>
+                <div className="h-8"></div>
                 <div className="flex flex-col items-center justify-center space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
                   <Link
                     href="https://nextjstemplates.com/templates/saas-starter-startup"
                     className="rounded-sm bg-primary px-8 py-4 text-base font-semibold text-white duration-300 ease-in-out hover:bg-primary/80"
                   >
-                    🔥 Get Pro
+                    🖼️ WebGPU.mdf
                   </Link>
                   <Link
                     href="https://github.com/NextJSTemplates/startup-nextjs"
                     className="inline-block rounded-sm bg-black px-8 py-4 text-base font-semibold text-white duration-300 ease-in-out hover:bg-black/90 dark:bg-white/10 dark:text-white dark:hover:bg-white/5"
                   >
-                    Star on GitHub
+                    💀 Sekeleton.mdf
                   </Link>
                 </div>
               </div>
