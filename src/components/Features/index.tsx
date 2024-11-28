@@ -9,7 +9,7 @@ const Features = () => {
         <div className="container">
           <SectionTitle
             title="Main Features"
-            paragraph="There are many variations of passages of Lorem Ipsum available but the majority have suffered alteration in some form."
+            paragraph="Discover the powerful capabilities of ThorVG through our comprehensive documentation. Learn how to create stunning vector graphics and animations with our feature-rich library."
             center
           />
 
