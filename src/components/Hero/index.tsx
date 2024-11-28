@@ -39,6 +39,12 @@ const Hero = () => {
                       console.log('Dropped files:', files);
                       const fileUrls = files.map(file => URL.createObjectURL(file));
                       const fileUrl = fileUrls[0];
+
+                      if (!fileUrl) {
+                        alert('Invalid file selected');
+                        return;
+                      }
+
                       console.log(fileUrl);
                       console.log(`/demo/index.html?path=${fileUrl}`);
 
@@ -85,6 +91,12 @@ const Hero = () => {
                           console.log('Selected files:', files);
                           const fileUrls = files.map(file => URL.createObjectURL(file));
                           const fileUrl = fileUrls[0];
+                          
+                          if (!fileUrl) {
+                            alert('Invalid file selected');
+                            return;
+                          }
+
                           console.log(fileUrl);
                           console.log(`/demo/index.html?path=${fileUrl}`);
 
