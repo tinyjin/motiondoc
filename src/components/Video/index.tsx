@@ -13,8 +13,8 @@ const Video = () => {
     <section className="relative z-10 py-16 md:py-20 lg:py-28">
       <div className="container">
         <SectionTitle
-          title="Team ThorVG"
-          paragraph="ThorVG is a community-driven project with a team of dedicated developers and designers. We are passionate about creating powerful, accessible tools for everyone."
+          title="With ThorVG"
+          paragraph="Motion Document Format is supported by ThorVG. ThorVG is a lightweight, portable graphics engine that enables high-quality vector graphics rendering across multiple platforms. It provides hardware-accelerated performance while maintaining a small footprint, making it ideal for embedded systems and applications requiring efficient graphics processing."
           center
           mb="80px"
         />
