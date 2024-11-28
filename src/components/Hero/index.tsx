@@ -101,7 +101,7 @@ const Hero = () => {
                 </div>
 
                 <div className="text-center">
-                  <span className="text-gray-500 dark:text-gray-400">or</span>
+                  <span className="text-gray-500 dark:text-gray-400">explore example document by</span>
                   <button 
                     className="ml-2 text-primary hover:underline"
                     onClick={() => {
@@ -109,22 +109,22 @@ const Hero = () => {
                       console.log('Explore example document clicked');
                     }}
                   >
-                    explore example document from ThorVG team
+                    ThorVG team
                   </button>
                 </div>
                 <div className="h-8"></div>
                 <div className="flex flex-col items-center justify-center space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
                   <Link
-                    href="https://nextjstemplates.com/templates/saas-starter-startup"
+                    href="/demo/index.html?path=https://jinui.s3.ap-northeast-2.amazonaws.com/mdf/webgpu.tvg"
                     className="rounded-sm bg-primary px-8 py-4 text-base font-semibold text-white duration-300 ease-in-out hover:bg-primary/80"
                   >
-                    🖼️ WebGPU.mdf
+                    ⚡ Introduction to WebGPU.mdf
                   </Link>
                   <Link
-                    href="https://github.com/NextJSTemplates/startup-nextjs"
+                    href="/demo/index.html?path=https://jinui.s3.ap-northeast-2.amazonaws.com/mdf/skeleton.tvg"
                     className="inline-block rounded-sm bg-black px-8 py-4 text-base font-semibold text-white duration-300 ease-in-out hover:bg-black/90 dark:bg-white/10 dark:text-white dark:hover:bg-white/5"
                   >
-                    💀 Sekeleton.mdf
+                    💀 Learning Skeletal.mdf
                   </Link>
                 </div>
               </div>
