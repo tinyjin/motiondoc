@@ -80,7 +80,7 @@ const Hero = () => {
                         or click to select files
                       </div>
                       <div className="text-xs text-gray-400 dark:text-gray-500">
-                        Supports TVG, MDF, and documentation bundles
+                        Supports MDF (Motion Document Format)
                       </div>
                       <input
                         type="file"
@@ -100,13 +100,12 @@ const Hero = () => {
                           console.log(fileUrl);
                           console.log(`/demo/index.html?path=${fileUrl}`);
 
-                          // http://localhost:3000/demo/index.html?path=http://127.0.0.1:5500/dist/poc.tvg
                           setTimeout(() => {
                             window.open(`/demo/index.html?path=${fileUrl}`, '_blank');
                           }, 500);
                         }}
                         multiple
-                        accept=".md,.mdx,.zip,.rar,.tvg"
+                        accept=".tvg,.mdf"
                       />
                     </div>
                   </div>

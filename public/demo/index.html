@@ -205,7 +205,7 @@
           <script>
             function downloadMDF() {
               // Implement PDF download logic
-              console.log('Download PDF');
+              console.log('Download MDF');
               // Get the file path from URL query parameter
               const urlParams = new URLSearchParams(window.location.search);
               const path = urlParams.get('path');
@@ -217,7 +217,7 @@
                 
                 // Extract filename from path
                 const filename = path.split('/').pop();
-                link.download = `${filename.split('.')[0]}.tvg` || 'document.tvg';
+                link.download = `${filename.split('.')[0]}.mdf` || 'document.mdf';
                 
                 // Trigger download
                 document.body.appendChild(link);
@@ -308,12 +308,12 @@
         animation.style.height = "1800px";
         // animation.style.height = "100vh";
         animation.style.border = "2px solid grey";
-        animation.style.background = "#525659";
+        animation.style.background = "#000";
         animation.style.margin = "0 auto";
         // animation.style.backgroundColor = "red";
 
         const filename = new URLSearchParams(window.location.search).get('path');
-        document.querySelector('.filename').textContent = filename.split('/').pop() + '.tvg';
+        document.querySelector('.filename').textContent = filename.split('/').pop() + '.mdf';
 
         lottie.appendChild(animation);
 
